@@ -13,4 +13,5 @@
 .idea
 .DS_Store
 .vscode
+.php_cs.cache
 ###< Other files and folders ###
