@@ -1,0 +1,57 @@
+version: '3.5'
+
+services:
+  captcha-web:
+    container_name: captcha-web
+    build:
+      context: ./docker/nginx
+      args:
+        UID: $U_ID
+    ports:
+      - 500:80
+    volumes:
+      - ./public:/appdata/www/public
+    depends_on:
+      - captcha-be
+    networks:
+      - captcha-network
+
+  captcha-be:
+    container_name: captcha-be
+    build:
+      context: docker/php
+      args:
+        UID: $U_ID
+        HOST: $HOST
+    volumes:
+      - ./:/appdata/www
+    environment:
+      PHP_IDE_CONFIG=serverName: Docker
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=${HOST} remote_port=9005
+    depends_on:
+      - captcha-db
+    networks:
+      - captcha-network
+
+  captcha-db:
+    container_name: captcha-db
+    build:
+      context: ./docker/database
+    ports:
+      - 41000:3306
+    environment:
+      MYSQL_DATABASE: database
+      MYSQL_ROOT_PASSWORD: root
+    command: mysqld --sql_mode="NO_ENGINE_SUBSTITUTION"
+    volumes:
+      - captcha-db-data:/var/lib/mysql
+    networks:
+      - captcha-network
+
+volumes:
+  captcha-db-data:
+
+networks:
+  captcha-network:
+    external: true

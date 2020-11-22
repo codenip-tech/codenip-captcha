@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+  captcha-client:
+    container_name: captcha-client
+    image: node:13
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: tail -f /dev/null
+    networks:
+      - captcha-network
+
+networks:
+  captcha-network:
+    external: true
