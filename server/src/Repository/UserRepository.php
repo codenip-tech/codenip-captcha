@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Exception\User\UserAlreadyExistsException;
 
 class UserRepository extends BaseRepository
 {
@@ -15,6 +16,10 @@ class UserRepository extends BaseRepository
 
     public function save(User $user): void
     {
-        $this->saveEntity($user);
+        try {
+            $this->saveEntity($user);
+        } catch (\Exception $e) {
+            throw UserAlreadyExistsException::fromEmail($user->getEmail());
+        }
     }
 }

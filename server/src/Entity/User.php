@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Exception\User\InvalidEmailException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Uid\Uuid;
 
-class User
+class User implements UserInterface
 {
     private string $id;
     private string $name;
@@ -20,7 +21,7 @@ class User
     {
         $this->id = Uuid::v4()->toRfc4122();
         $this->name = $name;
-        $this->email = $email;
+        $this->setEmail($email);
         $this->password = null;
         $this->createdOn = new \DateTime();
     }
@@ -82,5 +83,23 @@ class User
     public function markAsUpdated(): void
     {
         $this->updatedOn = new \DateTime();
+    }
+
+    public function getRoles(): array
+    {
+        return [];
+    }
+
+    public function getSalt(): void
+    {
+    }
+
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
     }
 }
