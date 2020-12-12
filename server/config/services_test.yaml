@@ -1,0 +1,6 @@
+imports:
+  - { resource: services.yaml }
+
+services:
+  App\Service\Http\ValidateCaptchaTokenInterface:
+    class: App\Tests\Functional\Service\Http\ValidateCaptchaTokenService

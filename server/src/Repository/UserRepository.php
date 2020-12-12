@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Exception\User\UserAlreadyExistsException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class UserRepository extends BaseRepository
 {
@@ -18,7 +19,7 @@ class UserRepository extends BaseRepository
     {
         try {
             $this->saveEntity($user);
-        } catch (\Exception $e) {
+        } catch (UniqueConstraintViolationException $e) {
             throw UserAlreadyExistsException::fromEmail($user->getEmail());
         }
     }

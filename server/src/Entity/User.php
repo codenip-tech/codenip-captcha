@@ -24,6 +24,7 @@ class User implements UserInterface
         $this->setEmail($email);
         $this->password = null;
         $this->createdOn = new \DateTime();
+        $this->markAsUpdated();
     }
 
     public function getId(): string
