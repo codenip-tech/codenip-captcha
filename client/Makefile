@@ -12,7 +12,7 @@ help: ## Show this help message
 run: ## Start the containers
 	docker network create captcha-network || true
 	cp -n docker-compose.yml.dist docker-compose.yml || true
-	cp -n .env.development.dist .env.development || true
+	cp -n .env.dist .env.development.local || true
 	U_ID=${UID} docker-compose up -d
 
 stop: ## Stop the containers
