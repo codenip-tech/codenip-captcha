@@ -28,7 +28,7 @@ class JsonExceptionResponseTransformerListener
             $data['code'] = JsonResponse::HTTP_BAD_REQUEST;
         }
 
-        if (\in_array($data['code'], $this->getConflictExceptions(), true)) {
+        if (\in_array($data['class'], $this->getConflictExceptions(), true)) {
             $data['code'] = JsonResponse::HTTP_CONFLICT;
         }
 
